@@ -4,7 +4,8 @@ from .models import Products
 from django.utils import timezone
 
 def home(request):
-	return render(request, 'products/home.html')
+	products = Products.objects
+	return render(request, 'products/home.html', {'products':products})
 
 
 @login_required
@@ -34,7 +35,7 @@ def detail(request, products_id):
 	products = get_object_or_404(Products, pk=products_id)
 	return render(request, 'products/detail.html',{'products':products})
 
-
+@login_required(login_url="/accounts/signup")
 def upvote(request, products_id):
 	if request.method == 'POST':
 		products = get_object_or_404(Products, pk=products_id)
